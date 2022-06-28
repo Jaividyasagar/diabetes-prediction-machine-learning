@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from mlapp import views # Importing views from app
 
-# urls 
+# urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home,name='home'),
@@ -27,4 +27,7 @@ urlpatterns = [
     path('login/',views.login,name="admin"),
     path('adminpage/',views.adminPage,name="adminpage"),
     path('train/',views.training,name="train"),
+    path('developer/',views.developer,name="dev"),
+    path('graph/',views.graph,name="graph"),
+    path('sms/',views.sms,name='sms'),
 ]

@@ -6,13 +6,7 @@
       background-attachment: fixed;
       background-position: center;
   }
-    h1{
-        text-align: center;
-        margin-top: 200px;
-        font-size: xx-large;
-        
-    }
-    button{
+  button{
     padding: 10px;
     padding-left: 30px;
     padding-right: 30px;
@@ -33,11 +27,24 @@
     cursor: pointer;
   }
 </style>
-<h1>{{ outcome }}</h1>
-<br><br>
-<a style="text-decoration:none;" href="{% url 'pdf' %}"><button type="button" name="button">Generate Report PDF</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a style="text-decoration:none;" href=" mailto:{{ email }}?subject=Diabetes Test Report&body={{ message }}"><button type="button" name="button">Send Mail</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{% url 'sms' %}"><button>Send SMS</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="{% url 'home' %}"><button>Home</button></a>
+
+<h1>ALGORITHM METRICS AS A GRAPH</h1>
+{% load static %}
+<h1><mark>Logistic Regression</mark></h1>
+<img src="{% static 'logic.jpg' %}" alt="">
+<h1><mark>Adaboost</mark></h1>
+<img src="{% static 'adaboost.jpg' %}" alt="">
+<h1><mark>Decision Tree</mark></h1>
+<img src="{% static 'tree.jpg' %}" alt="">
+<h1><mark>Random Forest</mark></h1>
+<img src="{% static 'randomforest.jpg' %}" alt="">
+<h1><mark>Gaussian Naive Bayes</mark></h1>
+<img src="{% static 'nb.jpg' %}" alt="">
+<h1><mark>k-Nearest Neighbour</mark></h1>
+<img src="{% static 'knn.jpg' %}" alt="">
+<br>
+<br>
+
+<a href="{% url 'home' %}"><button type="button" name="button">Home</button></a>
 
 {% endblock %}

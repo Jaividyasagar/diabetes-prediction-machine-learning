@@ -35,6 +35,7 @@ def prediction(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         gender = request.POST.get('gender')
+        number = int(request.POST.get('number'))
         email = request.POST.get('email')
         pregnancy = request.POST.get('Pregnancy')
         glucose = request.POST.get('Glucose')
@@ -46,6 +47,7 @@ def prediction(request):
         age = request.POST.get('Age')
         request.session['name'] = name
         request.session['gender'] = gender
+        request.session['number'] = number
         request.session['email'] = email
         request.session['pregnancy'] = pregnancy
         request.session['glucose'] = glucose
@@ -73,6 +75,7 @@ def prediction(request):
 def venuepdf(request):
     name = request.session['name']
     gender = request.session['gender']
+    number = request.session['number']
     pregnancy = request.session['pregnancy']
     glucose = request.session['glucose']
     bp = request.session['bp']
@@ -146,5 +149,46 @@ def adminPage(request):
 # Displays accuracy and metrics of algorithms
 
 def training(request):
-    list,metrics = train()
+    list, metrics, accuracy, algos = train()
+    import matplotlib.pyplot as plt
+    fig = plt.figure()
+    plt.bar(algos, accuracy)
+    fig.savefig('mlapp/static/accuracyplot.jpg')
     return render(request,'train.html',{'list':list,'metrics':metrics})
+
+def developer(request):
+    return redirect('https://jaividyasagar.pythonanywhere.com/')
+
+def graph(request):
+    return render(request,'graph.html')
+
+# Importing twilio rest API for SMS Generation
+
+from twilio.rest import Client
+def sms(request):
+    name = request.session['name']
+    gender = request.session['gender']
+    number = request.session['number']
+    pregnancy = request.session['pregnancy']
+    glucose = request.session['glucose']
+    bp = request.session['bp']
+    skin = request.session['skin']
+    insulin = request.session['insulin']
+    bmi = request.session['bmi']
+    dpf = request.session['dpf']
+    age = request.session['age']
+    output = request.session['output']
+    account_sid = 'AC67751ea2cf9b14d40736147dfbce1a04'
+    auth_token = 'c531c33d0023e2ef41378fd38d04c37e'
+
+
+    smsmessage = 'DIABETES PREDICTION REPORT'+'\n'+'Name: '+name+'\n'+'Age: '+str(age)+'\n'+'Gender: '+gender+'\n'+'Date and Time: '+str(datetime.now())+'-------------------------'+'\n'+'Pregnancy: '+str(pregnancy)+'\n'+'Glucose: '+str(glucose)+'\n'+'Blood Pressure: '+str(bp)+'\n'+'Skin Thickness: '+str(skin)+'\n'+'Insulin: '+str(insulin)+'\n'+'Body Mass Index: '+str(bmi)+'\n'+'Diabetes Pedigree Function: '+str(dpf)+'\n'+'---------------------------'+'\n'+'FINAL RESULT: '+output
+    print(smsmessage)
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        from_ = '+12054486473',
+        body = smsmessage,
+        to = '+919500442237'
+    )
+    print(message.sid)
+    return render(request,'sms.html')

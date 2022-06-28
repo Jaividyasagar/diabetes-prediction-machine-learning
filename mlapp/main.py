@@ -8,6 +8,9 @@ from sklearn.ensemble import RandomForestClassifier
 import csv
 import math
 import os
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
 
 def train():
     f = []
@@ -16,10 +19,10 @@ def train():
     x = data[['Pregnancies', 'Glucose', 'BloodPressure', # Input Parameters
               'SkinThickness', 'Insulin', 'BMI',
               'DiabetesPedigreeFunction', 'Age']]
-    y = data['Outcome']  
+    y = data['Outcome']
 
     # Splitting Train and Test data
-    
+
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.20, random_state=200)
 
     # Logistic Regression
@@ -39,6 +42,12 @@ def train():
     f.append('False negative:'+ str(cm[1][1])+'\n')
     f.append('Recall score:'+str(rs))
     f.append('\n\n')
+    labels=['true Neg','False pos','false Neg','true pos']
+    fig=plt.figure()
+    labels=np.asarray(labels).reshape(2,2)
+    print(labels)
+    sns.heatmap(cm, annot=labels,fmt='')
+    fig.savefig('mlapp/static/logic.jpg')
     print(cm)
     acc.append(accuracy)
 
@@ -61,6 +70,10 @@ def train():
     f.append('False negative:'+ str(cm[1][1])+'\n')
     f.append('Recall score:'+str(rs))
     f.append('\n\n')
+    f.append('\n\n')
+    fig = plt.figure()
+    sns.heatmap(cm, annot=labels, fmt='')
+    fig.savefig('mlapp/static/adaboost.jpg')
     print(cm)
     acc.append(accuracy)
 
@@ -82,6 +95,9 @@ def train():
     f.append('False negative:'+ str(cm[1][1])+'\n')
     f.append('Recall score:'+str(rs))
     f.append('\n\n')
+    fig = plt.figure()
+    sns.heatmap(cm, annot=labels, fmt='')
+    fig.savefig('mlapp/static/randomforest.jpg')
     print(cm)
     acc.append(accuracy)
 
@@ -102,6 +118,9 @@ def train():
     f.append('False negative:'+ str(cm[1][1])+'\n')
     f.append('Recall score:'+str(rs))
     f.append('\n\n')
+    fig = plt.figure()
+    sns.heatmap(cm, annot=labels, fmt='')
+    fig.savefig('mlapp/static/tree.jpg')
     print(cm)
     acc.append(accuracy)
 
@@ -122,6 +141,9 @@ def train():
     f.append('False negative:'+ str(cm[1][1])+'\n')
     f.append('Recall score:'+str(rs))
     f.append('\n\n')
+    fig = plt.figure()
+    sns.heatmap(cm, annot=labels, fmt='')
+    fig.savefig('mlapp/static/nb.jpg')
     print(cm)
     acc.append(accuracy)
 
@@ -142,6 +164,9 @@ def train():
     f.append('False negative:'+ str(cm[1][1])+'\n')
     f.append('Recall score:'+str(rs))
     f.append('\n\n')
+    fig = plt.figure()
+    sns.heatmap(cm, annot=labels, fmt='')
+    fig.savefig('mlapp/static/knn.jpg')
     print(cm)
     acc.append(accuracy)
 
@@ -178,4 +203,4 @@ def train():
         joblib.dump(knn, 'diabetesmodel.joblib')
     else:
         print("Error")
-    return final,f
+    return final,f,acc,algos
